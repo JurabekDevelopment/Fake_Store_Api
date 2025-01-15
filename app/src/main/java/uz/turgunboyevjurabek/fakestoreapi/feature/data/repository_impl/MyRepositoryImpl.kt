@@ -9,28 +9,27 @@ import uz.turgunboyevjurabek.fakestoreapi.feature.domain.repository.MyRepository
 
 
 class MyRepositoryImpl(private val apiService: ApiService) : MyRepository {
-    override suspend fun getProducts(): MyProduct? {
-//        val response = apiService.getProducts()
-//
-//        return when(response){
-//            is MyResponse.Error -> {
-//                MyResult.error(response.message)
-//            }
-//            is MyResponse.Success -> {
-//                MyResult.success(response.data)
-//            }
-//        }
-
+    override suspend fun getProducts(): MyResult<MyProduct> {
         val response = apiService.getProducts()
         return when(response){
             is MyResponse.Error -> {
-                Log.d("hatolik", "mana: ${response.message}")
-                null
+                MyResult.error(response.message)
             }
             is MyResponse.Success -> {
-                response.data
+                MyResult.success(response.data)
             }
         }
+//
+//        val response = apiService.getProducts()
+//        return when(response){
+//            is MyResponse.Error -> {
+//                Log.d("hatolik", "mana: ${response.message}")
+//                null
+//            }
+//            is MyResponse.Success -> {
+//                response.data
+//            }
+//        }
 
     }
 }

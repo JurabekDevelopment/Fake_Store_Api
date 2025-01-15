@@ -6,7 +6,7 @@ import uz.turgunboyevjurabek.fakestoreapi.feature.domain.madels.MyProduct
 import uz.turgunboyevjurabek.fakestoreapi.feature.domain.repository.MyRepository
 
 class GetProductsUseCase(private val myRepository: MyRepository) {
-    suspend operator fun invoke(): MyProduct?{
+    suspend operator fun invoke(): MyResult<MyProduct> {
         return myRepository.getProducts()
     }
 }

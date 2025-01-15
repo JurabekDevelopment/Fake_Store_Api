@@ -127,4 +127,9 @@ dependencies {
     // Logging uchun
     implementation(libs.ktor.client.logging)
 
+    /**
+     * ConstraintLayout
+     */
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.1.0")
+
 }

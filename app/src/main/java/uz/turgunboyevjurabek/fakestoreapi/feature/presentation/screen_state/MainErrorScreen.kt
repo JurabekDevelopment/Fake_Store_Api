@@ -1,4 +1,4 @@
-package uz.turgunboyevjurabek.fakestoreapi.feature.presentation.components.mai_components
+package uz.turgunboyevjurabek.fakestoreapi.feature.presentation.screen_state
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

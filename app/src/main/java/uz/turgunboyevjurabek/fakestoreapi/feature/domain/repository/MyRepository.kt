@@ -5,5 +5,5 @@ import uz.turgunboyevjurabek.fakestoreapi.core.utils.MyResult
 import uz.turgunboyevjurabek.fakestoreapi.feature.domain.madels.MyProduct
 
 interface MyRepository{
-    suspend fun getProducts():MyProduct?
+    suspend fun getProducts():MyResult<MyProduct>
 }

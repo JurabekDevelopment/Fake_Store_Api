@@ -18,7 +18,6 @@ class GetProductsViewModel(
     val getData = _getData.asStateFlow()
 
     init {
-
         getProducts()
     }
 
@@ -27,7 +26,7 @@ class GetProductsViewModel(
             _getData.value = MyResult.loading("Loading") // Loading holatini belgilash
             try {
                 val result = getProductsUseCase()
-                _getData.value = MyResult.success(result)
+                _getData.value = result
             } catch (e: Exception) {
                 _getData.value = MyResult.error(e.message ?: "Noma'lum xato yuz berdi")
             }
