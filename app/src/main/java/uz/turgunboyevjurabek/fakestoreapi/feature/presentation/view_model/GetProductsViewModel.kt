@@ -28,7 +28,7 @@ class GetProductsViewModel(
                 val result = getProductsUseCase()
                 _getData.value = result
             } catch (e: Exception) {
-                _getData.value = MyResult.error(e.message ?: "Noma'lum xato yuz berdi")
+                _getData.value = MyResult.error(e.message ?: "Noma'lum xato yuz berdi ${e.message}")
             }
         }
     }

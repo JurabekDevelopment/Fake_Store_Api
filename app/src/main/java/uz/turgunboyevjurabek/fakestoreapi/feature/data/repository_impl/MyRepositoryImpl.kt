@@ -19,17 +19,6 @@ class MyRepositoryImpl(private val apiService: ApiService) : MyRepository {
                 MyResult.success(response.data)
             }
         }
-//
-//        val response = apiService.getProducts()
-//        return when(response){
-//            is MyResponse.Error -> {
-//                Log.d("hatolik", "mana: ${response.message}")
-//                null
-//            }
-//            is MyResponse.Success -> {
-//                response.data
-//            }
-//        }
 
     }
 }
