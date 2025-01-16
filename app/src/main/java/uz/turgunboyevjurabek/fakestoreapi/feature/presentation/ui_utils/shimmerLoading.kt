@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun Modifier.shimmerLoading(
-    durationMillis: Int = 1000,
+    durationMillis: Int = 1200,
 ): Modifier {
     val transition = rememberInfiniteTransition(label = "")
 
@@ -37,9 +37,9 @@ fun Modifier.shimmerLoading(
         drawRect(
             brush = Brush.linearGradient(
                 colors = listOf(
-                    Color.LightGray.copy(alpha = 0.2f),
-                    Color.LightGray.copy(alpha = 1.0f),
-                    Color.LightGray.copy(alpha = 0.2f),
+                    Color.LightGray.copy(alpha = 0.5f),
+                    Color.LightGray.copy(alpha = 0.1f),
+                    Color.LightGray.copy(alpha = 0.5f),
                 ),
                 start = Offset(x = translateAnimation, y = translateAnimation),
                 end = Offset(x = translateAnimation + 100f, y = translateAnimation + 100f),

@@ -52,6 +52,7 @@ import uz.turgunboyevjurabek.fakestoreapi.feature.presentation.ui_utils.shimmerL
 @Composable
 fun ProductsList(
     products: SnapshotStateList<Product>,
+    onItemClick: (Product) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
 
@@ -64,6 +65,7 @@ fun ProductsList(
     ) {
         items(products.size) {
             ProductItem(
+                onItemClick = onItemClick,
                 product = products[it],
             )
         }
@@ -75,9 +77,13 @@ fun ProductsList(
 @Composable
 fun ProductItem(
     product: Product,
+    onItemClick: (Product) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Surface(
+        onClick = {
+            onItemClick(product)
+        },
         shape = Shapes().medium,
         shadowElevation = 2.dp,
         modifier = modifier
