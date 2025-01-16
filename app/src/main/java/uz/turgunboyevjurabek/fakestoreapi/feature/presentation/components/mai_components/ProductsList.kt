@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -19,6 +20,7 @@ import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -29,10 +31,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -43,10 +47,11 @@ import coil.request.CachePolicy
 import coil.request.ImageRequest
 import uz.turgunboyevjurabek.fakestoreapi.R
 import uz.turgunboyevjurabek.fakestoreapi.feature.domain.madels.Product
+import uz.turgunboyevjurabek.fakestoreapi.feature.presentation.ui_utils.shimmerLoading
 
 @Composable
 fun ProductsList(
-    products: ArrayList<Product>,
+    products: SnapshotStateList<Product>,
     modifier: Modifier = Modifier
 ) {
 
@@ -72,38 +77,20 @@ fun ProductItem(
     product: Product,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    val request = ImageRequest.Builder(context)
-        .data(product.image)
-        .crossfade(true)
-        .build()
-
-    val imageLoader = ImageLoader.Builder(context)
-        .error(R.drawable.ic_error)
-        .placeholder(R.drawable.ic_image)
-        .memoryCachePolicy(CachePolicy.ENABLED) // Xotira keshlashni yoqish
-        .diskCachePolicy(CachePolicy.ENABLED) // Disk keshlashni yoqish
-        .build()
-
     Surface(
-        shape = Shapes().large,
-        tonalElevation = 1.dp,
+        shape = Shapes().medium,
+        shadowElevation = 2.dp,
         modifier = modifier
-//            .height(300.dp)
     ) {
         ConstraintLayout(
             modifier = modifier
                 .fillMaxSize()
-
         ) {
             val (image, title, price, rating, like) = createRefs()
-            AsyncImage(
-                model = request,
-                imageLoader = imageLoader,
-                contentDescription = null,
-//                contentScale = ContentScale.Crop,
+            ImageWithStateHandling(
+                imageUrl = product.image,
                 modifier = modifier
-                    .clip(shape = Shapes().large)
+                    .clip(shape = Shapes().medium)
                     .fillMaxWidth()
 //                    .height(200.dp)
                     .constrainAs(image) {
@@ -118,11 +105,10 @@ fun ProductItem(
                     .background(Color.White, shape = Shapes().medium)
                     .size(40.dp)
                     .constrainAs(like) {
-                        bottom.linkTo(parent.bottom, 16.dp)
-                        top.linkTo(title.bottom)
-                        end.linkTo(parent.end, 16.dp)
+                        bottom.linkTo(parent.bottom, 10.dp)
+                        top.linkTo(title.bottom,10.dp)
+                        end.linkTo(parent.end, 10.dp)
                     }
-
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_favorite_border),
@@ -132,6 +118,7 @@ fun ProductItem(
                         .size(30.dp)
                 )
             }
+
 //            Text(
 //                "4.5 ⭐",
 //                fontWeight = FontWeight.Bold,
@@ -145,17 +132,19 @@ fun ProductItem(
 //            )
             Text(
                 product.title,
-                maxLines = 1,
+                maxLines = 2,
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 13.sp,
+                lineHeight = 15.sp,
                 overflow = TextOverflow.Ellipsis,
                 modifier = modifier
+                    .padding(horizontal = 5.dp)
                     .alpha(0.7f)
                     .constrainAs(title) {
-                        top.linkTo(image.bottom, 16.dp)
-                        start.linkTo(parent.start, 16.dp)
-                        end.linkTo(parent.end, 16.dp)
+                        top.linkTo(image.bottom, 25.dp)
+                        start.linkTo(parent.start,5.dp)
+                        end.linkTo(parent.end)
                     }
             )
             Text(
@@ -167,7 +156,7 @@ fun ProductItem(
                 modifier = modifier
                     .constrainAs(price) {
                         top.linkTo(title.bottom, 6.dp)
-                        start.linkTo(parent.start,)
+                        start.linkTo(parent.start,5.dp)
                     }
             )
 

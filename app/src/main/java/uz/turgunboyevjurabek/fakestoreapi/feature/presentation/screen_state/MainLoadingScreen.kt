@@ -6,6 +6,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import uz.turgunboyevjurabek.fakestoreapi.feature.presentation.components.mai_components.ProductLoadingState
 
 @Composable
 fun MainLoadingScreen(modifier: Modifier = Modifier) {
@@ -13,7 +14,7 @@ fun MainLoadingScreen(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize()
     ){
-        CircularProgressIndicator()
+        ProductLoadingState()
     }
 
 }
