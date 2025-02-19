@@ -1,9 +1,6 @@
 package uz.turgunboyevjurabek.fakestoreapi.feature.presentation.navigation
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import uz.turgunboyevjurabek.fakestoreapi.feature.domain.madels.Product
-
 
 @Serializable
 data object MainRout

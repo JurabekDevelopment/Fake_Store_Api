@@ -51,6 +51,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import uz.turgunboyevjurabek.fakestoreapi.R
@@ -76,29 +77,26 @@ fun SelectedItemScreen(
                 shape = RoundedCornerShape(bottomEnd = 20.dp, bottomStart = 20.dp),
                 modifier = modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.4f)
                     .constrainAs(surface) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
             ) {
-                ConstraintLayout(modifier = modifier.fillMaxSize()) {
+                ConstraintLayout(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                ) {
                     val (image, back, favorite) = createRefs()
-                    ImageWithStateHandling(
-                        imageUrl = product.image,
-                        modifier = modifier
-                            .constrainAs(image) {
-                                top.linkTo(parent.top)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
-                    )
+                    /**
+                     * Back Button
+                     */
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = modifier
                             .clickable { }
-                            .size(55.dp)
+                            .size(45.dp)
                             .background(MaterialTheme.colorScheme.background, Shapes().large)
                             .clip(Shapes().small)
                             .constrainAs(back) {
@@ -106,20 +104,28 @@ fun SelectedItemScreen(
                                 start.linkTo(parent.start, 12.dp)
                             }
                     ) {
-                        IconButton(onClick = {}) {
+                        IconButton(onClick = {
+                            if (navHostController.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED) {
+                                navHostController.popBackStack()
+                            }
+                        }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                                 contentDescription = null,
                                 modifier = modifier
-                                    .size(40.dp)
+                                    .size(30.dp)
                             )
                         }
                     }
+
+                    /**
+                     * Like Button
+                     */
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = modifier
                             .clickable { }
-                            .size(55.dp)
+                            .size(45.dp)
                             .background(MaterialTheme.colorScheme.background, Shapes().large)
                             .clip(Shapes().small)
                             .constrainAs(favorite) {
@@ -132,10 +138,23 @@ fun SelectedItemScreen(
                                 imageVector = ImageVector.vectorResource(R.drawable.ic_favorite_border),
                                 contentDescription = null,
                                 modifier = modifier
-                                    .size(36.dp)
+                                    .size(30.dp)
                             )
                         }
                     }
+                    ImageWithStateHandling(
+                        imageUrl = product.image,
+                        modifier = modifier
+                            .padding(horizontal = 8.dp, vertical = 5.dp)
+                            .constrainAs(image) {
+                                top.linkTo(back.bottom, margin = 5.dp)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            }
+                    )
+
+
+
                 }
             }
             Text(
@@ -169,12 +188,12 @@ fun SelectedItemScreen(
                 name = product.price.toString() + "$",
                 icon = ImageVector.vectorResource(R.drawable.ic_price),
                 style = TextStyle(
-                    fontSize = MaterialTheme.typography.displaySmall.fontSize,
+                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Black
                 ),
                 modifier = modifier
-                    .constrainAs(price){
+                    .constrainAs(price) {
                         top.linkTo(company.bottom, 10.dp)
                         start.linkTo(parent.start)
                     }
@@ -219,7 +238,7 @@ fun SelectedItemScreen(
 fun ItemBox(
     name: String,
     icon: ImageVector,
-    style: TextStyle=TextStyle(),
+    style: TextStyle = TextStyle(),
     modifier: Modifier
 ) {
     Surface(
@@ -238,7 +257,7 @@ fun ItemBox(
                     .background(MaterialTheme.colorScheme.background, shape = Shapes().small)
                     .clip(Shapes().small),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Icon(imageVector = icon, contentDescription = null)
             }
             Spacer(modifier = modifier.width(10.dp))

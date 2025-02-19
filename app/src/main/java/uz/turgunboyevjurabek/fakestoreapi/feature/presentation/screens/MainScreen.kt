@@ -61,7 +61,7 @@ import uz.turgunboyevjurabek.fakestoreapi.feature.presentation.view_model.GetPro
 @Composable
 fun MainScreen(
     navHostController: NavHostController,
-    viewModel: GetProductsViewModel = koinViewModel(),
+    viewModel: GetProductsViewModel,
     modifier: Modifier = Modifier
 ) {
     val productsList = remember { mutableStateListOf<Product>() }
